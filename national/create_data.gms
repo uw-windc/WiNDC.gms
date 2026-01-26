@@ -29,5 +29,10 @@ $if not exist %output_path% $call 'gams load/bea_create_data.gms o="%lst_dir%bea
 $set output "national_windc.gdx"
 $set output_path "%data_dir%/%output%"
 
-
 $if not exist %output_path% $call 'gams load/windc_create_data.gms o="%lst_dir%windc_create_data.lst" --data_dir=%data_dir%'
+
+
+$set output "national_legacy_windc.gdx"
+$set output_path "%data_dir%/%output%"
+
+$if not exist %output_path% $call 'gams load/legacy_windc_create_data.gms o="%lst_dir%legacy_windc_create_data.lst" --data_dir=%data_dir%'

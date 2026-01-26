@@ -65,7 +65,7 @@ $consumer:
 $prod:Y(s)$y_(s)  s:0 va:1
     o:PY(g)    q: ys0(g, s,  "2024")    a:RA    t:ty(s, "2024")
     i:PA(g)    q: id0(g, s,  "2024")
-    i:PVA(va)  q: va0(va, s, "2024")
+    i:PVA(va)  q: va0(va, s, "2024")   va:
     
 $prod:MS(m)
     o:PM(m)   q: (sum(g, ms0(g, m, "2024")))

@@ -31,4 +31,5 @@ $call 'gams create_data.gms --lst_dir=%lst_dir% --data_dir=%data_dir% o="%lst_di
 
 * Step 3: Verify benchmark national model
 
-$call 'gams model.gms --notation=%notation% --data_dir=%data_dir% --lst_dir=%lst_dir% o="%lst_dir%model_%notation%.lst"'
+*--notation=%notation%
+$call 'gams model.gms --data_dir=%data_dir% --lst_dir=%lst_dir% o="%lst_dir%model_%notation%.lst"'

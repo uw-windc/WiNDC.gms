@@ -65,8 +65,8 @@ $consumer:
 $prod:Y(sec)$y_(sec)  s:0 va:1
     o:PY(com)    q: Intermediate_Supply(com, sec, "2024")    a:RA    t:ty(sec, "2024")
     i:PA(com)    q: Intermediate_Demand(com, sec, "2024")
-    i:P_Labor    q: Labor_Demand(sec, "2024")
-    i:P_Capital  q: Capital_Demand(sec, "2024")
+    i:P_Labor    q: Labor_Demand(sec, "2024")             va:
+    i:P_Capital  q: Capital_Demand(sec, "2024")           va:
 
 $prod:MS(mar)
     o:PM(mar)   q: (sum(com, Margin_Supply(com, mar, "2024")))
