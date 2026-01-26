@@ -1,12 +1,15 @@
 $title Download data, if necessary
 
-$if not set O $set O "national_data.gdx"
+$if not set output $set output "national.gdx"
+$if not set version $set version "4.2.0"
 
 
-$set url "http://phillipsonhome.com/data/national"
-$set base_dir "%system.fp%/../data"
+$set url "https://beta.windc.wisc.edu/data/4.2.0/national/gdx"
+$set base_dir "data"
+
+$if not dexist %base_dir%   $call mkdir %base_dir%
 
 
-$set output_path "%base_dir%/%O%"
+$set output_path "%base_dir%/%output%"
 
-$call 'powershell.exe -command "wget -O %output_path% %url%"'
+$call 'curl -o %output_path% -L %url%'
