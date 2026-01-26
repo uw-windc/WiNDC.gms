@@ -10,8 +10,11 @@ $title Load the WiNDC national dataset
 * and so on.
 * ------------------
 
-
-$if not set file_path $set file_path "%system.fp%/data/national.gdx"
+$if not set data_dir $set data_dir "%system.fp%../data"
+$if not set file_name $set file_name "national.gdx"
+$if not set output $set output "national_bea.gdx"
+$set file_path "%data_dir%/%file_name%"
+$set output_path "%data_dir%/%output%"
 
 *---------------
 * End of Options 
@@ -35,26 +38,32 @@ $loaddc yr, gfd, sec, com, ifd, mar
 
 
 parameter
-    Duty(com, yr)                      "",
     Intermediate_Demand(com, sec, yr)  "",
-    Subsidy(com, yr)                   "",
-    Margin_Supply(com, mar, yr)        "Negative values in marginal categories",
-    Investment_Final_Demand(com, ifd, yr) "",
-    Tax(com, yr)                       "",
-    Intermediate_Supply(com, sec, yr)  "",
-    Government_Final_Demand(com, gfd, yr) "",
     Personal_Consumption(com, yr)      "Negative values in PCE (positive in USE table)",
-    Sector_Subsidy(sec, yr)            "",
+    Government_Final_Demand(com, gfd, yr) "",
+    Investment_Final_Demand(com, ifd, yr) "",
+    Export(com, yr)                    "",
     Labor_Demand(sec, yr)              "",
     Capital_Demand(sec, yr)            "",
-    Import(com, yr)                    "",
-    Margin_Demand(com, mar, yr)        "Positive values in marginal categories",
-    Household_Supply(com, yr)          "Positive values in PCE (negative in USE table)",
     Output_Tax(sec, yr)                "",
-    Export(com, yr)                    "";
+    Sector_Subsidy(sec, yr)            "",
+    Intermediate_Supply(com, sec, yr)  "",
+    Household_Supply(com, yr)          "Positive values in PCE (negative in USE table)",
+    Import(com, yr)                    "",
+    Duty(com, yr)                      "",
+    Subsidy(com, yr)                   "",
+    Tax(com, yr)                       "",
+    Margin_Supply(com, mar, yr)        "Negative values in marginal categories",
+    Margin_Demand(com, mar, yr)        "Positive values in marginal categories";
+    
+    
+    
 
 $gdxin %file_path%
-$loaddc Duty, Intermediate_Demand, Subsidy, Margin_Supply, Investment_Final_Demand, Tax, Intermediate_Supply, Government_Final_Demand, Personal_Consumption, Sector_Subsidy, Labor_Demand, Capital_Demand, Import, Margin_Demand, Household_Supply, Output_Tax, Export
+$loaddc Duty, Intermediate_Demand, Subsidy, Margin_Supply, Investment_Final_Demand 
+$loaddc Tax, Intermediate_Supply, Government_Final_Demand, Personal_Consumption 
+$loaddc Sector_Subsidy, Labor_Demand, Capital_Demand, Import, Margin_Demand 
+$loaddc Household_Supply, Output_Tax, Export
 
 
 
@@ -68,9 +77,9 @@ parameter
     Armington_Supply(com, yr)		Armington supply,
     Balance_Payments(yr)    balance of payments,
 
-	ty_0(sec, yr)	Policy output tax rate,
-	ta_0(com, yr)	Policy tax net subsidy rate on intermediate demand,
-    tm_0(com, yr)	Policy import tariff;
+	output_tax_rate(sec, yr)    Policy output tax rate,
+	tax_rate(com, yr)           Policy tax net subsidy rate on intermediate demand,
+    tariff_rate(com, yr)        Policy import tariff;
 
 
 Gross_Output(com, yr) = 
@@ -88,21 +97,21 @@ Balance_Payments(yr) =
     sum(com, Import(com, yr)) -
     sum(com, Export(com, yr));
 
-ty_0(sec, yr)$sum(com, Intermediate_Supply(com, sec, yr)) = 
+output_tax_rate(sec, yr)$sum(com, Intermediate_Supply(com, sec, yr)) = 
     (
         Output_Tax(sec, yr) +
         Sector_Subsidy(sec, yr)
     ) / 
     sum(com, Intermediate_Supply(com, sec, yr));
 
-ta_0(com, yr)$Armington_Supply(com, yr) = 
+tax_rate(com, yr)$Armington_Supply(com, yr) = 
     (
         Tax(com, yr) + 
         Subsidy(com, yr)
     ) /
     Armington_Supply(com, yr);
 
-tm_0(com, yr)$Import(com, yr) = Duty(com, yr) / Import(com, yr);
+tariff_rate(com, yr)$Import(com, yr) = Duty(com, yr) / Import(com, yr);
 
 
 
@@ -148,3 +157,32 @@ margin_balance(mar, yr) =
 display zero_profit;
 display market_clearance;
 display margin_balance;
+
+
+execute_unload '%output_path%' 
+* Sets
+    yr, gfd, sec, com,  ifd, mar,
+    
+    Intermediate_Demand,
+    Personal_Consumption,
+    Government_Final_Demand,
+    Investment_Final_Demand,
+    Export,
+    Labor_Demand,
+    Capital_Demand,
+    Output_Tax,
+    Sector_Subsidy,
+    Intermediate_Supply,
+    Household_Supply,
+    Import,
+    Duty,
+    Subsidy,
+    Tax,
+    Margin_Supply,
+    Margin_Demand,
+    Gross_Output,
+    Armington_Supply,
+    Balance_Payments,
+    Output_Tax_Rate,
+    Tax_Rate,
+    Tariff_Rate;
