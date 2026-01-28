@@ -1,16 +1,29 @@
 $title Download data, if necessary
 
-* Bug on sever side. Will fix soon.
+$OnText
+Download data from the WiNDC website. If the data already exists in the specified data directory,
+no download is performed.
 
-$if not set output $set output "national.gdx"
+Options:
+
+- data_dir: Directory to store downloaded data files. Default is "data/".
+- module: Module name to download. Default is "national".
+- version: Version of the data to download. Default is "4.2.0".
+
+Example usage:
+
+    gams get_data.gms --data_dir=data/ --module=national --version=4.2.0
+$OffText
+
+
+$if not set module $set module "national"
 $if not set version $set version "4.2.0"
 
-$set url "https://beta.windc.wisc.edu/data/4.2.0/national/gdx"
-$set base_dir "data"
+$set url "https://beta.windc.wisc.edu/data/%version%/%module%/gdx"
+$set data_dir "data"
 
-$if not dexist %base_dir%   $call mkdir %base_dir%
+$if not dexist %data_dir%   $call mkdir %data_dir%
 
+$set output_path "%data_dir%/%module%.gdx"
 
-$set output_path "%base_dir%/%output%"
-
-$call 'curl -o %output_path% -L %url%'
+$if not exist %output_path% $call 'curl -L -o %output_path% %url%'

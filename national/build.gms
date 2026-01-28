@@ -19,9 +19,9 @@ $if not dexist lst    $call mkdir lst
 
 
 
-* Step 1: Download the data if it does not exist (To Do)
+* Step 1: Download the data if it does not exist
 
-*$include get_data.gms
+$call 'gams get_data.gms --data_dir=%data_dir% --module=national --version=4.2.0'
 
 
 * Step 2: Create the data files if they do not exist
