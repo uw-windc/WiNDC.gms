@@ -1,12 +1,29 @@
 $title Download data, if necessary
 
-$if not set O $set O "national_data.gdx"
+$OnText
+Download data from the WiNDC website. If the data already exists in the specified data directory,
+no download is performed.
+
+Command Line Arguments:
+
+- data_dir: Directory to store downloaded data files. Default is "data/".
+- module: Module name to download. Default is "national".
+- version: Version of the data to download. Default is "4.2.0".
+
+Example usage:
+
+    gams get_data.gms --data_dir=data/ --module=national --version=4.2.0
+$OffText
 
 
-$set url "http://phillipsonhome.com/data/national"
-$set base_dir "%system.fp%/../data"
+$if not set module $set module "national"
+$if not set version $set version "4.2.0"
 
+$set url "https://beta.windc.wisc.edu/data/%version%/%module%/gdx"
+$set data_dir "data"
 
-$set output_path "%base_dir%/%O%"
+$if not dexist %data_dir%   $call mkdir %data_dir%
 
-$call 'powershell.exe -command "wget -O %output_path% %url%"'
+$set output_path "%data_dir%/%module%.gdx"
+
+$if not exist %output_path% $call 'curl -L -o %output_path% %url%'
