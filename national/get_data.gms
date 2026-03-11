@@ -4,7 +4,7 @@ $OnText
 Download data from the WiNDC website. If the data already exists in the specified data directory,
 no download is performed.
 
-Options:
+Command Line Arguments:
 
 - data_dir: Directory to store downloaded data files. Default is "data/".
 - module: Module name to download. Default is "national".

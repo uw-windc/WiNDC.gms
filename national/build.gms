@@ -1,5 +1,8 @@
+$title Build and verify national model
 
 $ONTEXT
+Download, create, and verify the benchmark national model. 
+
 
 Options:
 
