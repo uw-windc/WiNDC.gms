@@ -83,10 +83,3 @@ $loaddc Marginal_Labor_Tax, Marginal_Labor_Tax_Rate, National_Demand
 $loaddc National_Margin_Supply, Output_Tax, Output_Tax_Rate, Personal_Consumption
 $loaddc Reexport, Regional_Local_Supply, Regional_National_Supply, Savings, Tax
 $loaddc Tax_Rate, Total_Supply, Transfer_Payment      
-
-
-parameter report(*, *);
-
-report("1", "RNS") = Regional_National_Supply("113FF", "Alaska");
-
-display report;
