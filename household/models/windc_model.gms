@@ -26,32 +26,33 @@ parameter
     etaK "Capital elasticity of output" /4/;
 
 parameter
-    ta(r,g)	Counterfactual consumption taxes,
-    ty(r,s)	Counterfactual production taxes
-    tm(r,g)	Counterfactual import taxes,
-    tk(r,s)	Counterfactual capital taxes,
-    tfica(r,h)	Counterfactual FICA labor taxes,
-    tl(r,h)	Counterfactual marginal labor taxes;
+    ta(g, r)	Counterfactual consumption taxes,
+    ty(s, r)	Counterfactual production taxes
+    tm(g, r)	Counterfactual import taxes,
+    tk(s, r)	Counterfactual capital taxes,
+    tfica(h, r)	Counterfactual FICA labor taxes,
+    tl(h, r)	Counterfactual marginal labor taxes;
 
-ty(r, s) = ty0(r, s);
-ta(r, g) = ta0(r, g);
-tm(r, g) = tm0(r, g);
-tk(r, s) = tk0(r, s);
-tfica(r, h) = tfica0(r, h);
-tl(r, h) = tl0(r, h);
+ty(s, r) = ty0(s, r);
+ta(g, r) = ta0(g, r);
+tm(g, r) = tm0(g, r);
+tk(s, r) = tk0(s, r);
+tfica(h, r) = tfica0(h, r);
+tl(h, r) = tl0(h, r);
 
 
-sets y_(r, s) 	Sectors and regions with positive production,
-	x_(r, g) 	Disposition by region,
-	a_(r, g) 	Absorption by region,
+sets y_(s, r) 	Sectors and regions with positive production,
+	x_(g, r) 	Disposition by region,
+	a_(g, r) 	Absorption by region,
 	pn_(g)  	National market,
-	pd_(r, g)  	Local markets;
+	pd_(g, r)  	Local markets;
 
-y_(r, s) = yes$(sum(g, ys0(r, s, g))>0);
-x_(r, g) = yes$round(s0(r, g),6);
-a_(r, g) = yes$(a0(r, g) + rx0(r, g));
-pn_(g) = yes$(sum(r, xn0(r, g) + nd0(r, g) + sum(m, md0(r, m, g))));
-pd_(r, g) = yes$(xd0(r, g) + dd0(r, g) + sum(m, dm0(r, g, m)));
+y_(s, r) = yes$(sum(g, ys0(g, s, r))>0);
+x_(g, r) = yes$round(s0(g, r),6);
+a_(g, r) = yes$(a0(g, r) + rx0(g, r));
+pn_(g) = yes$(sum(r, xn0(g, r) + nd0(g, r) + sum(m, md0(g, m, r))));
+pd_(g, r) = yes$(xd0(g, r) + dd0(g, r) + sum(m, dm0(g, m, r)));
+
 
 * -----------------------------------------------------------------------------
 * Static MGE model
@@ -61,33 +62,30 @@ $ontext
 $model:static_hh_mge
 
 $sectors:
-	Y(r,s)$y_(r,s)  !	Production
-	X(r,g)$x_(r,g)  !	Disposition
-	A(r,g)$a_(r,g)  !	Absorption
-	LS(r,h)			!	Labor supply
+	Y(s,r)$y_(s,r)  !	Production
+	X(g,r)$x_(g,r)  !	Disposition
+	A(g,r)$a_(g,r)  !	Absorption
+	LS(h,r)			!	Labor supply
 	KS			    !	Aggregate capital stock
-	C(r,h)			!	Household consumption
-	MS(r,m)         !	Margin supply
+	C(h,r)			!	Household consumption
+	MS(m,r)         !	Margin supply
 
 $commodities:
-		PA(r,g)$a0(r,g)     !       Regional market (input)
-		PY(r,g)$s0(r,g)     !       Regional market (output)
-		PD(r,g)$pd_(r,g)    !       Local market price
+		PA(g,r)$a0(g,r)     !       Regional market (input)
+		PY(g,r)$s0(g,r)     !       Regional market (output)
+		PD(g,r)$pd_(g,r)    !       Local market price
 		PN(g)$pn_(g)        !       National market price for goods
 		PL(r)               !       Regional wage rate
 		PK			        !     	Aggregate return to capital
-		PM(r,m)             !       Margin price
-		PC(r,h)		        !       Consumer price index
+		PM(m,r)             !       Margin price
+		PC(h,r)		        !       Consumer price index
 		PFX                 !       Foreign exchange
-		RK(r,s)$kd0(r,s)	!       Sectoral rental rate
+		RK(s,r)$kd0(s,r)	!       Sectoral rental rate
 		RKS			        !		Capital stock
-		PLS(r,h)	        !		Leisure price
-		
-		
-		
-
+		PLS(h,r)	        !		Leisure price
+	
 $consumer:
-	RA(r,h)			!	Representative agent
+	RA(h,r)			!	Representative agent
 	NYSE			!	Aggregate capital owner
 	INVEST			!	Aggregate investor
 	GOVT			!	Aggregate government
@@ -98,88 +96,87 @@ $auxiliary:
 	SSK			!	Steady-state capital stock
 	CPI			!	Consumer price index
 
-$prod:Y(r,s)$y_(r,s)  s:0 va:1
-	o:PY(r,g)	q:ys0(r,s,g)            a:GOVT t:ty(r,s)       p:(1-ty0(r,s))
-	i:PA(r,g)       q:id0(r,g,s)
-	i:PL(r)         q:ld0(r,s)     va:
-	i:RK(r,s)       q:kd0(r,s)     va:	a:GOVT t:tk(r,s)       p:(1+tk0(r, s))
+$prod:Y(s,r)$y_(s,r)  s:0 va:1
+	o:PY(g,r)	q:ys0(g,s,r)            a:GOVT t:ty(s,r)       p:(1-ty0(s,r))
+	i:PA(g,r)       q:id0(g,s,r)
+	i:PL(r)         q:ld0(s,r)     va:
+	i:RK(s,r)       q:kd0(s,r)     va:	a:GOVT t:tk(s,r)       p:(1+tk0(s, r))
 
 $report:
-	v:KD(r,s)$kd0(r,s)	i:RK(r,s)	prod:Y(r,s)
+	v:KD(s,r)$kd0(s,r)	i:RK(s,r)	prod:Y(s,r)
 
-$prod:X(r,g)$x_(r,g)  t:4
-	o:PFX           q:(x0(r,g)-rx0(r,g))
-	o:PN(g)         q:xn0(r,g)
-	o:PD(r,g)       q:xd0(r,g)
-	i:PY(r,g)       q:s0(r,g)
+$prod:X(g,r)$x_(g,r)  t:4
+	o:PFX           q:(x0(g,r)-rx0(g,r))
+	o:PN(g)         q:xn0(g,r)
+	o:PD(g,r)       q:xd0(g,r)
+	i:PY(g,r)       q:s0(g,r)
 
-$prod:A(r,g)$a_(r,g)  s:0 dm:2  d(dm):4
-	o:PA(r,g)       q:a0(r,g)               a:GOVT t:ta(r,g)       p:(1-ta0(r,g))
-	o:PFX           q:rx0(r,g)
-	i:PN(g)         q:nd0(r,g)      d:
-	i:PD(r,g)       q:dd0(r,g)      d:
-	i:PFX           q:m0(r,g)       dm:     a:GOVT t:tm(r,g)       p:(1+tm0(r,g))
-	i:PM(r,m)       q:md0(r,m,g)
-    
+$prod:A(g,r)$a_(g,r)  s:0 dm:2  d(dm):4
+	o:PA(g,r)       q:a0(g,r)               a:GOVT t:ta(g,r)       p:(1-ta0(g,r))
+	o:PFX           q:rx0(g,r)
+	i:PN(g)         q:nd0(g,r)      d:
+	i:PD(g,r)       q:dd0(g,r)      d:
+	i:PFX           q:m0(g,r)       dm:     a:GOVT t:tm(g,r)       p:(1+tm0(g,r))
+	i:PM(m,r)       q:md0(g,m,r)
+
 $report:
-	v:MD(r,g)$m0(r,g)	i:PFX	prod:A(r,g)
+	v:MD(g,r)$m0(g,r)	i:PFX	prod:A(g,r)
 
-$prod:MS(r,m)
-	o:PM(r,m)       q:(sum(g, md0(r,m,g)))
-	i:PN(g)        q:nm0(r,g,m)
-	i:PD(r,g)      q:dm0(r,g,m)
+$prod:MS(m,r)
+	o:PM(m,r)       q:(sum(g, md0(g,m,r)))
+	i:PN(g)        q:nm0(g,m,r)
+	i:PD(g,r)      q:dm0(g,m,r)
 
-$prod:C(r,h)	  s:1
-	o:PC(r,h)       q:(sum(g, cd0_h(r,g,h)))
-	i:PA(r,g)       q:cd0_h(r,g,h)
+$prod:C(h,r)	  s:1
+	o:PC(h,r)       q:(sum(g, cd0_h(g,h,r)))
+	i:PA(g,r)       q:cd0_h(g,h,r)
 
-$prod:LS(r,h)
-	o:PL(q)		q:le0(r,q,h)	a:GOVT	t:(tl(r,h)+tfica(r,h))	p:(1-tl0(r,h)-tfica0(r,h))
-	i:PLS(r,h)	q:ls0(r,h)
-
+$prod:LS(h,r)
+	o:PL(q)		q:le0(q,h,r)	a:GOVT	t:(tl(h,r)+tfica(h,r))	p:(1-tl0(h,r)-tfica0(h,r))
+	i:PLS(h,r)	q:ls0(h,r)
 
 $prod:KS	t:etaK
-	o:RK(r,s)	q:kd0(r,s)
-	i:RKS		q:(sum((r,s),kd0(r,s)))
+	o:RK(s,r)	q:kd0(s,r)
+	i:RKS		q:(sum((s,r),kd0(s,r)))
 
-$demand:RA(r,h)	  s:esubL(r,h)
-	d:PC(r,h)   q:(sum(g, cd0_h(r,g,h)))
-	d:PLS(r,h)	q:lsr0(r,h)
-	e:PLS(r,h)	q:(ls0(r,h)+lsr0(r,h))
-	e:PFX		q:(sum(trn, hhtrn0(r,h,trn)))	r:TRANS
-	e:PLS(r,h)	q:((tl(r,h) - tl_avg0(r,h))*sum(q,le0(r,q,h)))
-	e:PK		q:ke0(r,h)
-	e:PFX		q:(-sav0(r,h))	r:SAVRATE
+$demand:RA(h,r)	  s:esubL(h,r)
+	d:PC(h,r)   q:(sum(g, cd0_h(g,h,r)))
+	d:PLS(h,r)	q:lsr0(h,r)
+	e:PLS(h,r)	q:(ls0(h,r)+lsr0(h,r))
+	e:PFX		q:(sum(trn, hhtrn0(trn,h,r)))	r:TRANS
+	e:PLS(h,r)	q:((tl(h,r) - tl_avg0(h,r))*sum(q,le0(q,h,r)))
+	e:PK		q:ke0(h,r)
+	e:PFX		q:(-sav0(h,r))	r:SAVRATE
 
 $report:
-	v:W(r,h)	w:RA(r,h)
+	v:W(h,r)	w:RA(h,r)
 
 $demand:NYSE
 	d:PK
-	e:PY(r,g)	q:yh0(r,g)
-	e:RKS		q:(sum((r,s),kd0(r,s)))	r:SSK
+	e:PY(g,r)	q:yh0(g,r)
+	e:RKS		q:(sum((s,r),kd0(s,r)))	r:SSK
 
 $demand:INVEST  s:0
-	d:PA(r,g)	q:i0(r,g)
-	e:PFX		q:(sum((r,h), sav0(r,h)))  r:SAVRATE
+	d:PA(g,r)	q:i0(g,r)
+	e:PFX		q:(sum((h,r), sav0(h,r)))  r:SAVRATE
 
 $demand:GOVT
-	d:PA(r,g)	q:g0(r,g)
-	e:PFX           q:(-sum((r,trn,h), hhtrn0(r,h, trn)))   r:TRANS	
+	d:PA(g,r)	q:g0(g,r)
+	e:PFX           q:(-sum((r,trn,h), hhtrn0(trn,h,r)))   r:TRANS	
 	e:PFX           q:govdef0
-	e:PLS(r,h)	q:(-(tl(r,h) - tl_avg0(r,h))*sum(q,le0(r,q,h)))
+	e:PLS(h,r)	q:(-(tl(h,r) - tl_avg0(h,r))*sum(q,le0(q,h,r)))
 	
 $constraint:SSK
-	sum((r,g),i0(r,g)*PA(r,g)) =e= sum((r,g),i0(r,g))*RKS;
+	sum((r,g),i0(g,r)*PA(g,r)) =e= sum((r,g),i0(g,r))*RKS;
 
 $constraint:SAVRATE
-	INVEST =e= sum((r,g), PA(r,g)*i0(r,g))*SSK;
+	INVEST =e= sum((r,g), PA(g,r)*i0(g,r))*SSK;
 
 $constraint:TRANS
-	GOVT =e= sum((r,g),PA(r,g)*g0(r,g));
+	GOVT =e= sum((r,g),PA(g,r)*g0(g,r));
 
 $constraint:CPI
-	CPI =e= sum((r,g,h), PC(r,h)*cd0_h(r,g,h))/sum((r,g,h),cd0_h(r,g,h));
+	CPI =e= sum((r,g,h), PC(h,r)*cd0_h(g,h,r))/sum((r,g,h),cd0_h(g,h,r));
 
 $offtext
 $sysinclude mpsgeset static_hh_mge -mt=1
