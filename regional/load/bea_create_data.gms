@@ -105,11 +105,11 @@ Household_Adjustment(state, yr) = sum(com, Personal_Consumption(com, state, yr))
 parameter
     Output_Tax_Rate(sec, state, yr) "",
     Tax_Rate(com, state, yr)        "",
-    Duty_Rate(com, state, yr)       "";
+    Tariff_Rate(com, state, yr)       "";
 
 Output_Tax_Rate(sec, state, yr)$(sum(com, Intermediate_Supply(com, sec, state, yr))) = Output_Tax(sec, state, yr) / sum(com, Intermediate_Supply(com, sec, state, yr));
 Tax_Rate(com, state, yr)$(Absorption(com, state, yr)) = Tax(com, state, yr) / Absorption(com, state, yr);
-Duty_Rate(com, state, yr)$(Import(com, state, yr)) = Duty(com, state, yr) / Import(com, state, yr);
+Tariff_Rate(com, state, yr)$(Import(com, state, yr)) = Duty(com, state, yr) / Import(com, state, yr);
 
 execute_unload "%output_path%" 
 * Sets
@@ -142,4 +142,4 @@ execute_unload "%output_path%"
     Household_Adjustment,
     Output_Tax_Rate,
     Tax_Rate,
-    Duty_Rate;
+    Tariff_Rate;
