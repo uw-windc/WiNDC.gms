@@ -64,6 +64,8 @@ $loaddc Margin_Supply, National_Demand, National_Margin_Supply, Output_Tax
 $loaddc Personal_Consumption, Reexport, Tax
 
 
+
+
 * --------------------
 * Aggregate Parameters
 * --------------------
@@ -82,7 +84,7 @@ parameters
 Regional_Local_Supply(com, state, yr) = sum(mar, Local_Margin_Supply(com, mar, state, yr)) + Local_Demand(com, state, yr);
 Netports(com, state, yr) = Export(com, state, yr) - Reexport(com, state, yr);
 Total_Supply(com, state, yr) = sum(sec, Intermediate_Supply(com, sec, state, yr)) + Household_Supply(com, state, yr);
-Regional_National_Supply(com, state, yr) = Total_Supply(com, state, yr) - Export(com, state, yr) - Regional_Local_Supply(com, state, yr);
+Regional_National_Supply(com, state, yr) = Total_Supply(com, state, yr) - Netports(com, state, yr) - Regional_Local_Supply(com, state, yr);
 Absorption(com, state, yr) = sum(sec, Intermediate_Demand(com, sec, state, yr)) + Personal_Consumption(com, state, yr) + Investment_Final_Demand(com, state, yr) + Government_Final_Demand(com, state, yr);
 Balance_of_Payments(state, yr) = sum(com, Import(com, state, yr) - Export(com, state, yr));
 
