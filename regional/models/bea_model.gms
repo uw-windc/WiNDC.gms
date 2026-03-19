@@ -42,6 +42,19 @@ ty(sec, state, yr) = Output_Tax_Rate(sec, state, yr);
 ta(com, state, yr) = Tax_Rate(com, state, yr);
 tm(com, state, yr) = Tariff_Rate(com, state, yr);
 
+parameter report(*,*);
+
+report("PA", "1") = Absorption("111CA", "Alabama", "2024");
+report("PFX_o", "1") = Reexport("111CA", "Alabama", "2024");
+report("PN", "1") = National_Demand("111CA", "Alabama", "2024");
+report("PD", "1") = Local_Demand("111CA", "Alabama", "2024");
+report("PFX", "1") = Import("111CA", "Alabama", "2024");
+report("PM", "1") = Margin_Demand("111CA", "Trade", "Alabama", "2024");
+
+
+display report, a_;
+
+
 $ontext
 $model:single_year
 
@@ -78,7 +91,7 @@ $prod:X(com, state)$Total_Supply(com, state, "2024")  t:4
 	o:PD(com, state)    q:Regional_Local_Supply(com, state, "2024")
 	i:PY(com, state)    q:Total_Supply(com, state, "2024")
 
-$prod:A(com, state)$a_(com, state)  s:0  t:2 dm:2
+$prod:A(com, state)$a_(com, state)  s:0  t:2 dm:2 d(dm):4
     o:PA(com, state)    q:Absorption(com, state, "2024")            a:RA(state)    t:ta(com, state, "2024")   p:(1-Tax_Rate(com, state, "2024"))
     o:PFX               q:Reexport(com, state, "2024")
     i:PN(com)           q:National_Demand(com, state, "2024")  d:
@@ -108,6 +121,7 @@ $SYSINCLUDE mpsgeset single_year -mt=1
 
 
 single_year.iterlim = 0;
+single_year.workspace=1000
 $include %gams.scrdir%single_year.gen
 solve single_year using mcp;
 abort$round(single_year.objval,3) "Benchmark replication fails for the MGE model.";
