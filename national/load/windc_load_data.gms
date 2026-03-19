@@ -1,16 +1,28 @@
 $title Load the WiNDC national dataset
 
 $OnText
-    Currently hard coded to load from %data_dir%/national_windc.gdx
+Load the National dataset with sets and parameters that match classic 
+WiNDC notation, but with domain orders that matches the WiNDCNational.jl 
+dataset. 
+
+For example, the Intermediate_Demand(com, sec) parameter from the BEA 
+dataset becomes id0(g, s) in the WiNDC dataset.
+
+Options:
+
+    - `data_dir` - Directory where the data file is located. Default is 
+                    `../data/` relative to the GAMS file.
+    - `data_file` - Name of the GDX file containing the data. Default is 
+                    `national_windc.gdx`.
+    - `data_path` - Full path to the GDX file. If not set, it will be 
+                    constructed from `data_dir` and `data_file`.
 $OffText
 
 $if not set data_dir $set data_dir "%system.fp%/../data"
+$if not set data_file $set data_file "national_windc.gdx"
 
-*$if not set file_name $set file_name "national.gdx"
-*$set file_path "%data_dir%/%file_name%"
-*
-*$if not set output $set output "national_windc.gdx"
-*$set output_path "%data_dir%/%output%"
+$if not set data_path $set data_path "%data_dir%/%data_file%"
+
 
 *---------------
 * End of Options 
@@ -24,7 +36,7 @@ set
     va    "Value added categories", 
     xfd   "Final demand categories"
 
-$gdxin '%data_dir%/national_windc.gdx'
+$gdxin '%data_path%'
 $load g, s, m, yr, va, xfd
 
 
@@ -53,5 +65,5 @@ parameter
     ty0(s, yr)        "Output tax rate";
 
 
-$gdxin '%data_dir%/national_windc.gdx'
+$gdxin '%data_path%'
 $loaddc id0, pce0, fd0, x0, va0, ms0, ys0, fs0, m0, md0, duty0, sbd0, tax0, y0, a0, bopdef0, ta0, tm0, ty0
