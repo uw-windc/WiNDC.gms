@@ -7,16 +7,16 @@ no download is performed.
 Command Line Arguments:
 
 - data_dir: Directory to store downloaded data files. Default is "data/".
-- module: Module name to download. Default is "national".
+- module: Module name to download. Default is "household".
 - version: Version of the data to download. Default is "4.2.0".
 
 Example usage:
 
-    gams get_data.gms --data_dir=data/ --module=national --version=4.2.0
+    gams get_data.gms --data_dir=data/ --module=household --version=4.2.0
 $OffText
 
 
-$if not set module $set module national
+$if not set module $set module household
 $if not set version $set version 4.2.0
 
 $set url "https://windc.wisc.edu/data/%module%/%version%/gdx"

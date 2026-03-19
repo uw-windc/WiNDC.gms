@@ -1,16 +1,23 @@
-$title Load the WiNDC national dataset
+$title Load the WiNDC National dataset
 
 $OnText
-    Currently hard coded to load from %data_dir%/national_bea.gdx
+Load the National dataset with BEA sets and parameters. This dataset matches
+the WiNDCNational.jl dataset. 
+
+Options:
+
+    - `data_dir` - Directory where the data file is located. Default is 
+                    `../data/` relative to the GAMS file.
+    - `data_file` - Name of the GDX file containing the data. Default is 
+                    `national_bea.gdx`.
+    - `data_path` - Full path to the GDX file. If not set, it will be 
+                    constructed from `data_dir` and `data_file`.
 $OffText
 
 $if not set data_dir $set data_dir "%system.fp%/../data"
+$if not set data_file $set data_file "national_bea.gdx"
 
-*$if not set file_name $set file_name "national.gdx"
-*$set file_path "%data_dir%/%file_name%"
-*
-*$if not set output $set output "national_windc.gdx"
-*$set output_path "%data_dir%/%output%"
+$if not set data_path $set data_path "%data_dir%/%data_file%"
 
 *---------------
 * End of Options 
@@ -18,42 +25,44 @@ $if not set data_dir $set data_dir "%system.fp%/../data"
 
 set
     gfd  "Government portions of final demand",
-    yr   "years",
+    yr   "Years",
     sec  "Sectors",
     com  "Commodities",
     ifd  "Investment portions of final demand",
     mar  "Margin sectors";
 
-$gdxin '%data_dir%/national_bea.gdx'
+$gdxin '%data_path%'
 $load yr, gfd, sec, com, ifd, mar
 
 
 parameters
-    Intermediate_Demand(com, sec, yr)  "",
-    Personal_Consumption(com, yr)      "Negative values in PCE (positive in USE table)",
-    Government_Final_Demand(com, gfd, yr) "",
-    Investment_Final_Demand(com, ifd, yr) "",
-    Export(com, yr)                    "",
-    Labor_Demand(sec, yr)              "",
-    Capital_Demand(sec, yr)            "",
-    Output_Tax(sec, yr)                "",
-    Sector_Subsidy(sec, yr)            "",
-    Intermediate_Supply(com, sec, yr)  "",
-    Household_Supply(com, yr)          "Positive values in PCE (negative in USE table)",
-    Import(com, yr)                    "",
-    Duty(com, yr)                      "",
-    Subsidy(com, yr)                   "",
-    Tax(com, yr)                       "",
-    Margin_Supply(com, mar, yr)        "Negative values in marginal categories",
-    Margin_Demand(com, mar, yr)        "Positive values in marginal categories",
-    Armington_Supply(com, yr)        "WiNDC-specific Armington supply",
-    Gross_Output(com, yr)           "WiNDC-specific gross output",
-    Balance_Payments(yr)            "WiNDC-specific balance of payments deficit",
-    Output_Tax_Rate(sec, yr) "",
-    Tax_Rate(com, yr) "",
-    Tariff_Rate(com, yr) "";
+    Intermediate_Demand(com, sec, yr)       "Intermediate Demand portion of the Use table",
+    Personal_Consumption(com, yr)           "Negative values in PCE (positive values in Use table)",
+    Government_Final_Demand(com, gfd, yr)   "Government portions of final demand",
+    Investment_Final_Demand(com, ifd, yr)   "Investment portions of final demand",
+    Export(com, yr)                         "Exports",
+    Labor_Demand(sec, yr)                   "Labor demand - NAICS code V001",
+    Capital_Demand(sec, yr)                 "Capital demand - NAICS code V003",
+    Output_Tax(sec, yr)                     "Output tax - NAICS code T00OTOP",
+    Sector_Subsidy(sec, yr)                 "Sectoral subsidies - NAICS code T00SUB",
+    Intermediate_Supply(com, sec, yr)       "Intermediate Supply portion of the Supply table",
+    Household_Supply(com, yr)               "Positive values in PCE (negative in USE table)",
+    Import(com, yr)                         "Imports",
+    Duty(com, yr)                           "Import Duties",
+    Subsidy(com, yr)                        "Subsidies",
+    Tax(com, yr)                            "Taxes",
+    Margin_Supply(com, mar, yr)             "Negative values in marginal categories",
+    Margin_Demand(com, mar, yr)             "Positive values in marginal categories",
 
-$gdxin '%data_dir%/national_bea.gdx'
+    Armington_Supply(com, yr)               "WiNDC-specific Armington supply",
+    Gross_Output(com, yr)                   "WiNDC-specific Gross Output",
+    Balance_Payments(yr)                    "WiNDC-specific Balance of Payments deficit",
+
+    Output_Tax_Rate(sec, yr)                "Output tax rate",
+    Tax_Rate(com, yr)                       "Tax rate",
+    Tariff_Rate(com, yr)                    "Tariff rate";
+
+$gdxin '%data_path%'
 $loaddc Intermediate_Demand, Personal_Consumption, Government_Final_Demand, 
 $loaddc Investment_Final_Demand, Export, Labor_Demand, Capital_Demand, 
 $loaddc Output_Tax, Sector_Subsidy, Intermediate_Supply, Household_Supply, Import, 

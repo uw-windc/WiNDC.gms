@@ -1,19 +1,25 @@
 $title National accounting model to verify benchmark consistency of MGE model
 
 
-*-------------------
-* Options
-* 
-* These can be set at the command line by calling
-* 
-*     gams load_data --file_path "path/to/file.gdx"
-* 
-* and so on.
-* ------------------
+$OnText
+National accounting model to verify benchmark consistency of MGE model. 
 
+Options:
 
-$if not set file_path $set file_path "%system.fp%/../data/national.gdx"
+    - `data_dir` - Directory where the data file is located. Default is 
+                    `../data/` relative to the GAMS file.
+    - `data_file` - Name of the GDX file containing the data. Default is 
+                    `national_windc.gdx`.
+    - `data_path` - Full path to the GDX file. If not set, it will be 
+                    constructed from `data_dir` and `data_file`.
+    - `year` - Year of the data to load. Default is `2024`.
 
+$OffText
+
+$if not set data_dir $set data_dir "%system.fp%/../data"
+$if not set data_file $set data_file "national_windc.gdx"
+
+$if not set data_path $set data_path "%data_dir%/%data_file%"
 
 $if not set year $set year "2024"
 
@@ -29,9 +35,9 @@ sets
     a_(g)     Sectors with absorption,
     py_(g)    Goods with positive supply;
 
-y_(s) = yes$sum(g, ys0(g, s, "2024"));
-a_(g) = yes$a0(g, "2024");
-py_(g) = yes$sum(s, ys0(g, s, "2024"));
+y_(s) = yes$sum(g, ys0(g, s, "%year%"));
+a_(g) = yes$a0(g, "%year%");
+py_(g) = yes$sum(s, ys0(g, s, "%year%"));
 
 
 parameters
@@ -63,43 +69,32 @@ $consumer:
     RA              ! Representative agent
 
 $prod:Y(s)$y_(s)  s:0 va:1
-    o:PY(g)    q: ys0(g, s,  "2024")    a:RA    t:ty(s, "2024")
-    i:PA(g)    q: id0(g, s,  "2024")
-    i:PVA(va)  q: va0(va, s, "2024")   va:
+    o:PY(g)    q: ys0(g, s,  "%year%")    a:RA    t:ty(s, "%year%")
+    i:PA(g)    q: id0(g, s,  "%year%")
+    i:PVA(va)  q: va0(va, s, "%year%")   va:
     
 $prod:MS(m)
-    o:PM(m)   q: (sum(g, ms0(g, m, "2024")))
-    i:PY(g)   q: ms0(g, m, "2024")
+    o:PM(m)   q: (sum(g, ms0(g, m, "%year%")))
+    i:PY(g)   q: ms0(g, m, "%year%")
 
 $prod:A(g)$a_(g)  s:0  t:2 dm:2
-    o:PA(g)   q: a0(g, "2024")          a:ra    t:ta(g, "2024")   p:(1-ta0(g, "2024"))
-    o:PFX     q: x0(g, "2024")
-    i:PY(g)   q: y0(g, "2024")     dm:
-    i:PFX     q: m0(g, "2024")     dm:  a:ra    t:tm(g, "2024")   p:(1+tm0(g, "2024"))
-    i:PM(m)   q: md0(g, m, "2024")  
+    o:PA(g)   q: a0(g, "%year%")          a:ra    t:ta(g, "%year%")   p:(1-ta0(g, "%year%"))
+    o:PFX     q: x0(g, "%year%")
+    i:PY(g)   q: y0(g, "%year%")     dm:
+    i:PFX     q: m0(g, "%year%")     dm:  a:ra    t:tm(g, "%year%")   p:(1+tm0(g, "%year%"))
+    i:PM(m)   q: md0(g, m, "%year%")  
 
 $demand:RA  s:1
-    d:PA(g)     q: pce0(g, "2024")
-    e:PY(g)     q: fs0(g, "2024")
-    e:PFX       q: bopdef0("2024")
-    e:PA(g)     q: (-sum(xfd, fd0(g, xfd, "2024")))
-    e:PVA(va)   q: (sum(s, va0(va, s, "2024")))
+    d:PA(g)     q: pce0(g, "%year%")
+    e:PY(g)     q: fs0(g, "%year%")
+    e:PFX       q: bopdef0("%year%")
+    e:PA(g)     q: (-sum(xfd, fd0(g, xfd, "%year%")))
+    e:PVA(va)   q: (sum(s, va0(va, s, "%year%")))
 $offtext
 $SYSINCLUDE mpsgeset single_year -mt=1
 
 
-Y.L(s) = 1;
-A.L(g) = 1;
-MS.L(m) = 1;
-PA.L(g) = 1;
-PY.L(g) = 1;
-PVA.L(va) = 1;
-PM.L(m) = 1;
-PFX.L = 1;
-RA.LO = 0; RA.UP = +INF;
-
-
 single_year.iterlim = 0;
 $include %gams.scrdir%single_year.gen
-    solve single_year using mcp;
-    abort$round(single_year.objval,3) "Benchmark replication fails for the MGE model.";
+solve single_year using mcp;
+abort$round(single_year.objval,3) "Benchmark replication fails for the MGE model.";

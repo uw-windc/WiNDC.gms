@@ -38,23 +38,23 @@ $loaddc yr, gfd, sec, com, ifd, mar
 
 
 parameter
-    Intermediate_Demand(com, sec, yr)  "",
-    Personal_Consumption(com, yr)      "Negative values in PCE (positive in USE table)",
-    Government_Final_Demand(com, gfd, yr) "",
-    Investment_Final_Demand(com, ifd, yr) "",
-    Export(com, yr)                    "",
-    Labor_Demand(sec, yr)              "",
-    Capital_Demand(sec, yr)            "",
-    Output_Tax(sec, yr)                "",
-    Sector_Subsidy(sec, yr)            "",
-    Intermediate_Supply(com, sec, yr)  "",
-    Household_Supply(com, yr)          "Positive values in PCE (negative in USE table)",
-    Import(com, yr)                    "",
-    Duty(com, yr)                      "",
-    Subsidy(com, yr)                   "",
-    Tax(com, yr)                       "",
-    Margin_Supply(com, mar, yr)        "Negative values in marginal categories",
-    Margin_Demand(com, mar, yr)        "Positive values in marginal categories";
+    Intermediate_Demand(com, sec, yr)       "Intermediate Demand portion of the Use table",
+    Personal_Consumption(com, yr)           "Negative values in PCE (positive values in Use table)",
+    Government_Final_Demand(com, gfd, yr)   "Government portions of final demand",
+    Investment_Final_Demand(com, ifd, yr)   "Investment portions of final demand",
+    Export(com, yr)                         "Exports",
+    Labor_Demand(sec, yr)                   "Labor demand - NAICS code V001",
+    Capital_Demand(sec, yr)                 "Capital demand - NAICS code V003",
+    Output_Tax(sec, yr)                     "Output tax - NAICS code T00OTOP",
+    Sector_Subsidy(sec, yr)                 "Sectoral subsidies - NAICS code T00SUB",
+    Intermediate_Supply(com, sec, yr)       "Intermediate Supply portion of the Supply table",
+    Household_Supply(com, yr)               "Positive values in PCE (negative in USE table)",
+    Import(com, yr)                         "Imports",
+    Duty(com, yr)                           "Import Duties",
+    Subsidy(com, yr)                        "Subsidies",
+    Tax(com, yr)                            "Taxes",
+    Margin_Supply(com, mar, yr)             "Negative values in marginal categories",
+    Margin_Demand(com, mar, yr)             "Positive values in marginal categories";
     
     
     
@@ -73,13 +73,13 @@ $loaddc Household_Supply, Output_Tax, Export
 * --------------------
 
 parameter 
-    Gross_Output(com, yr)		    Gross output,
-    Armington_Supply(com, yr)		Armington supply,
-    Balance_Payments(yr)    balance of payments,
+    Armington_Supply(com, yr)               "WiNDC-specific Armington supply",
+    Gross_Output(com, yr)                   "WiNDC-specific Gross Output",
+    Balance_Payments(yr)                    "WiNDC-specific Balance of Payments deficit",
 
-	output_tax_rate(sec, yr)    Policy output tax rate,
-	tax_rate(com, yr)           Policy tax net subsidy rate on intermediate demand,
-    tariff_rate(com, yr)        Policy import tariff;
+    Output_Tax_Rate(sec, yr)                "Output tax rate",
+    Tax_Rate(com, yr)                       "Tax rate",
+    Tariff_Rate(com, yr)                    "Tariff rate";
 
 
 Gross_Output(com, yr) = 
@@ -97,21 +97,21 @@ Balance_Payments(yr) =
     sum(com, Import(com, yr)) -
     sum(com, Export(com, yr));
 
-output_tax_rate(sec, yr)$sum(com, Intermediate_Supply(com, sec, yr)) = 
+Output_Tax_Rate(sec, yr)$sum(com, Intermediate_Supply(com, sec, yr)) = 
     (
         Output_Tax(sec, yr) +
         Sector_Subsidy(sec, yr)
     ) / 
     sum(com, Intermediate_Supply(com, sec, yr));
 
-tax_rate(com, yr)$Armington_Supply(com, yr) = 
+Tax_Rate(com, yr)$Armington_Supply(com, yr) = 
     (
         Tax(com, yr) + 
         Subsidy(com, yr)
     ) /
     Armington_Supply(com, yr);
 
-tariff_rate(com, yr)$Import(com, yr) = Duty(com, yr) / Import(com, yr);
+Tariff_Rate(com, yr)$Import(com, yr) = Duty(com, yr) / Import(com, yr);
 
 
 
