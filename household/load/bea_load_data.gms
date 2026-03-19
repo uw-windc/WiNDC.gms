@@ -1,16 +1,23 @@
-$title Load the WiNDC national dataset
+$title Load the WiNDC Household dataset
 
 $OnText
-    Currently hard coded to load from %data_dir%/household_bea.gdx
+Load the Household dataset with BEA sets and parameters. This dataset matches
+the WiNDCHousehold.jl dataset. 
+
+Options:
+
+    - `data_dir` - Directory where the data file is located. Default is 
+                    `../data/` relative to the GAMS file.
+    - `data_file` - Name of the GDX file containing the data. Default is 
+                    `household_bea.gdx`.
+    - `data_path` - Full path to the GDX file. If not set, it will be 
+                    constructed from `data_dir` and `data_file`.
 $OffText
 
 $if not set data_dir $set data_dir "%system.fp%/../data"
+$if not set data_file $set data_file "household_bea.gdx"
 
-*$if not set file_name $set file_name "national.gdx"
-*$set file_path "%data_dir%/%file_name%"
-*
-*$if not set output $set output "national_windc.gdx"
-*$set output_path "%data_dir%/%output%"
+$if not set data_path $set data_path "%data_dir%/%data_file%"
 
 set
     com   "Commodities",
@@ -19,9 +26,9 @@ set
     mar   "Margin sectors",
     sec   "Sectors",
     state "States",
-    trn "Transfer types";
+    trn   "Transfer types";
 
-$gdxin '%data_dir%/household_bea.gdx'
+$gdxin '%data_path%'
 $load  com, dest, h, mar, sec, state, trn
 
 
@@ -75,7 +82,7 @@ parameters
     Average_Labor_Tax_Rate(h, state)       "Policy average labor tax rate";
 
 
-$gdxin '%data_dir%/household_bea.gdx'
+$gdxin '%data_path%'
 $loaddc Absorption, Average_Labor_Tax, Average_Labor_Tax_Rate, Capital_Demand, Capital_Tax
 $loaddc Capital_Tax_Rate, Duty, Duty_Rate, Export, FICA_Tax, FICA_Tax_Rate
 $loaddc Government_Deficit, Government_Final_Demand, Household_Interest
