@@ -17,7 +17,7 @@ Options:
 $OffText
 
 $if not set data_dir $set data_dir "%system.fp%/../data"
-$if not set data_file $set data_file "national_legacy_windc.gdx"
+$if not set data_file $set data_file "national_windc.gdx"
 
 $if not set data_path $set data_path "%data_dir%/%data_file%"
 
