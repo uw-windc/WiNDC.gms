@@ -19,7 +19,7 @@ $OffText
 $if not set module $set module household
 $if not set version $set version 4.2.0
 
-$set url "https://beta.windc.wisc.edu/data/%module%/%version%/gdx"
+$set url "https://windc.wisc.edu/data/%module%/%version%/gdx"
 $set data_dir "data"
 
 $if not dexist %data_dir%   $call mkdir %data_dir%
