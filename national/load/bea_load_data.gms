@@ -1,16 +1,23 @@
-$title Load the WiNDC national dataset
+$title Load the WiNDC National dataset
 
 $OnText
-    Currently hard coded to load from %data_dir%/national_bea.gdx
+Load the National dataset with BEA sets and parameters. This dataset matches
+the WiNDCNational.jl dataset. 
+
+Options:
+
+    - `data_dir` - Directory where the data file is located. Default is 
+                    `../data/` relative to the GAMS file.
+    - `data_file` - Name of the GDX file containing the data. Default is 
+                    `national_bea.gdx`.
+    - `data_path` - Full path to the GDX file. If not set, it will be 
+                    constructed from `data_dir` and `data_file`.
 $OffText
 
 $if not set data_dir $set data_dir "%system.fp%/../data"
+$if not set data_file $set data_file "national_bea.gdx"
 
-*$if not set file_name $set file_name "national.gdx"
-*$set file_path "%data_dir%/%file_name%"
-*
-*$if not set output $set output "national_windc.gdx"
-*$set output_path "%data_dir%/%output%"
+$if not set data_path $set data_path "%data_dir%/%data_file%"
 
 *---------------
 * End of Options 
@@ -24,7 +31,7 @@ set
     ifd  "Investment portions of final demand",
     mar  "Margin sectors";
 
-$gdxin '%data_dir%/national_bea.gdx'
+$gdxin '%data_path%'
 $load yr, gfd, sec, com, ifd, mar
 
 
@@ -55,7 +62,7 @@ parameters
     Tax_Rate(com, yr)                       "Tax rate",
     Tariff_Rate(com, yr)                    "Tariff rate";
 
-$gdxin '%data_dir%/national_bea.gdx'
+$gdxin '%data_path%'
 $loaddc Intermediate_Demand, Personal_Consumption, Government_Final_Demand, 
 $loaddc Investment_Final_Demand, Export, Labor_Demand, Capital_Demand, 
 $loaddc Output_Tax, Sector_Subsidy, Intermediate_Supply, Household_Supply, Import, 
