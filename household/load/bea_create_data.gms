@@ -35,33 +35,33 @@ $loaddc com, h, mar, sec, state, trn
 alias(state, dest);
 
 parameter
-    Average_Labor_Tax(h, state)             "",
-    Capital_Demand(sec, state)              "",
-    Capital_Tax(sec, state)                 "",
-    Duty(com, state)                        "",
-    Export(com, state)                      "",
-    FICA_Tax(h, state)                      "",
-    Government_Final_Demand(com, state)     "",
-    Household_Interest(h, state)            "",
-    Household_Supply(com, state)            "",
-    Import(com, state)                      "",
-    Intermediate_Demand(com, sec, state)    "",
-    Intermediate_Supply(com, sec, state)    "",
-    Investment_Final_Demand(com, state)     "",
-    Labor_Demand(sec, state)                "",
-    Labor_Endowment(dest, h, state)         "",
-    Local_Demand(com, state)                "",
-    Local_Margin_Supply(com, mar, state)    "",
-    Margin_Demand(com, mar, state)          "",
-    Marginal_Labor_Tax(h, state)            "",
-    National_Demand(com, state)             "",
-    National_Margin_Supply(com, mar, state) "",
-    Output_Tax(sec, state)                  "",
-    Personal_Consumption(com, h, state)     "",
-    Reexport(com, state)                    "",
-    Savings(h, state)                       "",
-    Tax(com, state)                         "",
-    Transfer_Payment(trn, h, state)       "";
+    Average_Labor_Tax(h, state)             "Average Labor Tax ",
+    Capital_Demand(sec, state)              "Capital Demand",
+    Capital_Tax(sec, state)                 "Capital Tax",
+    Duty(com, state)                        "Import Duty",
+    Export(com, state)                      "Export",
+    FICA_Tax(h, state)                      "FICA Tax",
+    Government_Final_Demand(com, state)     "Government Final Demand",
+    Household_Interest(h, state)            "Household Interest",
+    Household_Supply(com, state)            "Household Supply",
+    Import(com, state)                      "Import",
+    Intermediate_Demand(com, sec, state)    "Intermediate Demand",
+    Intermediate_Supply(com, sec, state)    "Intermediate Supply",
+    Investment_Final_Demand(com, state)     "Investment Final Demand",
+    Labor_Demand(sec, state)                "Labor Demand",
+    Labor_Endowment(dest, h, state)         "Labor Endowment",
+    Local_Demand(com, state)                "Local Demand",
+    Local_Margin_Supply(com, mar, state)    "Local Margin Supply",
+    Margin_Demand(com, mar, state)          "Margin Demand",
+    Marginal_Labor_Tax(h, state)            "Marginal Labor Tax",
+    National_Demand(com, state)             "National Demand",
+    National_Margin_Supply(com, mar, state) "National Margin Supply",
+    Output_Tax(sec, state)                  "Output Tax",
+    Personal_Consumption(com, h, state)     "Personal Consumption",
+    Reexport(com, state)                    "Reexport",
+    Savings(h, state)                       "Savings",
+    Tax(com, state)                         "Tax",
+    Transfer_Payment(trn, h, state)         "Transfer Payment";
 
 $gdxin %file_path%
 $loaddc Average_Labor_Tax, Capital_Demand, Capital_Tax, Duty
@@ -110,16 +110,16 @@ Local_Margin_Supply(com, mar, state)$(Local_Margin_Supply(com, mar, state)<1e-6)
 * --------------------
 
 parameters
-    Regional_National_Supply(com, state) "",
-    Regional_Local_Supply(com, state)    "",
-    Total_Supply(com, state)             "",
-    Absorption(com, state)               "",
-    Labor_Supply(h, state)               "",
-    Leisure_Consumption_Elas(h, state)   "",
-    Leisure_Demand(h, state)             "",
-    Government_Deficit                   "",
-    Labor_Supply_Income_Elas             "" /.05/,
-    Leisure_Income_Elas                  "" /.2/ ;
+    Regional_National_Supply(com, state)    "Regional National Supply",
+    Regional_Local_Supply(com, state)       "Regional Local Supply",
+    Total_Supply(com, state)                "Total Supply",
+    Absorption(com, state)                  "Absorption",
+    Labor_Supply(h, state)                  "Labor Supply",
+    Leisure_Consumption_Elas(h, state)      "Leisure Consumption Elasticity",
+    Leisure_Demand(h, state)                "Leisure Demand",
+    Government_Deficit                      "Government Deficit",
+    Labor_Supply_Income_Elas                "" /.05/,
+    Leisure_Income_Elas                     "" /.2/ ;
 
 
 
