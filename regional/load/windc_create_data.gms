@@ -1,19 +1,30 @@
-$title Load the WiNDC Household dataset
+$title Create the WiNDC Regional dataset
 
-*-------------------
-* Options
-* 
-* These can be set at the command line by calling
-* 
-*     gams load_data --file_path "path/to/file.gdx"
-* 
-* and so on.
-* ------------------
+$OnText
+Create the Regional dataset with sets and parameters that match classic 
+WiNDC notation, but with domain orders that matches the WiNDCRegional.jl 
+dataset. 
+
+Options:
+
+    - `data_dir` - Directory where the data file is located. Default is 
+                    `../data/` relative to the GAMS file.
+    - `data_file` - Name of the GDX file containing the data. Default is 
+                    `regional_bea.gdx`.
+    - `data_path` - Full path to the GDX file. If not set, it will be 
+                    constructed from `data_dir` and `data_file`.
+    - `output` - Name of the output GDX file. Default is `regional_windc.gdx`.
+
+Example:
+
+    gams load_data --data_dir "path/to/data" --data_file "my_data.gdx"
+
+$OffText
 
 $if not set data_dir $set data_dir "%system.fp%../data"
 
-$if not set file_name $set file_name "regional_bea.gdx"
-$set file_path "%data_dir%/%file_name%"
+$if not set data_file $set data_file "regional_bea.gdx"
+$set data_path "%data_dir%/%data_file%"
 
 $if not set output $set output "regional_windc.gdx"
 $set output_path "%data_dir%/%output%"
