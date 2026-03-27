@@ -10,7 +10,7 @@ Options:
     - `data_dir` - Directory where the data file is located. Default is 
                     `../data/` relative to the GAMS file.
     - `data_file` - Name of the GDX file containing the data. Default is 
-                    `national_bea.gdx`.
+                    `household_bea.gdx`.
     - `data_path` - Full path to the GDX file. If not set, it will be 
                     constructed from `data_dir` and `data_file`.
     - `output` - Name of the output GDX file. Default is `household_windc.gdx`.
