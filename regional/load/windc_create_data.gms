@@ -39,7 +39,6 @@ Parameter
     ld0(s,r,yr)   "Labor_Demand",
     m0(g,r,yr)    "Import",
     md0(g,m,r,yr) "Margin_Demand",
-    md0(g,m,r,yr) "Margin_Demand",
     nd0(g,r,yr)   "National_Demand",
     nm0(g,m,r,yr) "National_Margin_Supply",
     rx0(g,r,yr)   "Reexport",
