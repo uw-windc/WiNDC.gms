@@ -30,9 +30,6 @@ $if not set year $set year "2024"
 $include "%system.fp%/../load/windc_load_data.gms"
 
 
-parameter
-    etaK "Capital elasticity of output" /4/;
-
 sets
     y_(s, r)     sectors with positive production,
     a_(g, r)     sectors with absorption,
