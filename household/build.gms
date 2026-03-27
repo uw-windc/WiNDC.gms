@@ -1,13 +1,13 @@
-$title Build and verify household model
+$title Build and verify Houshold model
 
 $ONTEXT
-Download, create, and verify the benchmark household model. 
-
+Build the Houshold data and run the model to verify calibration.
 
 Options:
 
-    1. BEA - Use BEA NAICS codes
-    2. WiNDC - Use WiNDC aggregated codes
+    - notation - Which dataset to use. Options are "BEA", "WiNDC", and "legacy_windc". Default is "BEA".
+    - data_dir - Directory to store downloaded data files. Default is "data/".
+    - lst_dir - Where to store GAMS lst files. Default is "lst/".
 
 $OFFTEXT
 
@@ -29,10 +29,10 @@ $call 'gams get_data.gms --data_dir=%data_dir% --module=household --version=4.2.
 
 * Step 2: Create the data files if they do not exist
 
-$call 'gams create_data.gms --lst_dir=%lst_dir% --data_dir=%data_dir% o="%lst_dir%create_data.lst"'
+$call 'gams create_data.gms --lst_dir=%lst_dir% --data_dir=%data_dir% o="%lst_dir%create_data.lst" --notation="%notation%"'
 
 
 * Step 3: Verify benchmark national model
 
 *--notation=%notation%
-$call 'gams model.gms --data_dir=%data_dir% --lst_dir=%lst_dir% o="%lst_dir%model_%notation%.lst"'
+$call 'gams model.gms --data_dir=%data_dir% --lst_dir=%lst_dir% o="%lst_dir%model_%notation%.lst" --notation="%notation%"'
