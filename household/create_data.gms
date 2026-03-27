@@ -40,6 +40,7 @@ $label WiNDC
 $set output "household_windc.gdx"
 $set output_path "%data_dir%/%output%"
 
+$if not exist "%data_dir%/household_bea.gdx" $call 'gams load/bea_create_data.gms o="%lst_dir%bea_create_data.lst" --data_dir=%data_dir%'
 $if not exist %output_path% $call 'gams load/windc_create_data.gms o="%lst_dir%windc_create_data.lst" --data_dir=%data_dir%'
 
 $if set notation $exit
@@ -52,6 +53,7 @@ $label legacy_windc
 $set output "household_legacy_windc.gdx"
 $set output_path "%data_dir%/%output%"
 
+$if not exist "%data_dir%/household_bea.gdx" $call 'gams load/bea_create_data.gms o="%lst_dir%bea_create_data.lst" --data_dir=%data_dir%'
 $if not exist %output_path% $call 'gams load/legacy_windc_create_data.gms o="%lst_dir%legacy_windc_create_data.lst" --data_dir=%data_dir%'
 
 $if set notation $exit
