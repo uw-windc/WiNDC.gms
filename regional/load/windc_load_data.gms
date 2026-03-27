@@ -1,8 +1,8 @@
-$title Load the WiNDC Household dataset
+$title Load the WiNDC Regional dataset
 
 $OnText
-Load the Household dataset with sets and parameters that match classic 
-WiNDC notation, but with domain orders that matches the WiNDCHousehold.jl 
+Load the Regional dataset with sets and parameters that match classic 
+WiNDC notation, but with domain orders that matches the WiNDCRegional.jl 
 dataset. 
 
 For example, the Intermediate_Demand(com, sec, state) parameter from the BEA 

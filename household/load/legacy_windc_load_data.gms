@@ -1,4 +1,4 @@
-$title Load the WiNDC national dataset
+$title Load the WiNDC Household dataset
 
 $OnText
 Load the Household dataset with sets and parameters that match classic 
@@ -12,7 +12,7 @@ Options:
     - `data_dir` - Directory where the data file is located. Default is 
                     `../data/` relative to the GAMS file.
     - `data_file` - Name of the GDX file containing the data. Default is 
-                    `household_windc.gdx`.
+                    `household_legacy_windc.gdx`.
     - `data_path` - Full path to the GDX file. If not set, it will be 
                     constructed from `data_dir` and `data_file`.
 $OffText
