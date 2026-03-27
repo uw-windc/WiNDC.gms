@@ -42,18 +42,6 @@ ty(sec, state, yr) = Output_Tax_Rate(sec, state, yr);
 ta(com, state, yr) = Tax_Rate(com, state, yr);
 tm(com, state, yr) = Tariff_Rate(com, state, yr);
 
-parameter report(*,*);
-
-report("PA", "1") = Absorption("111CA", "Alabama", "2024");
-report("PFX_o", "1") = Reexport("111CA", "Alabama", "2024");
-report("PN", "1") = National_Demand("111CA", "Alabama", "2024");
-report("PD", "1") = Local_Demand("111CA", "Alabama", "2024");
-report("PFX", "1") = Import("111CA", "Alabama", "2024");
-report("PM", "1") = Margin_Demand("111CA", "Trade", "Alabama", "2024");
-
-
-display report, a_;
-
 
 $ontext
 $model:single_year
