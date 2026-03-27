@@ -32,8 +32,6 @@ $call 'gams get_data.gms --data_dir=%data_dir% --module=regional --version=4.2.0
 $call 'gams create_data.gms --lst_dir=%lst_dir% --data_dir=%data_dir% o="%lst_dir%create_data.lst" --notation="%notation%"'
 
 
-$exit
-
 * Step 3: Verify benchmark national model
 
 *--notation=%notation%
