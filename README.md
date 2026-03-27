@@ -5,7 +5,8 @@ The Wisconsin National Data Consortium (WiNDC) creates and distributes data and 
 There are two available modules:
 
 1. `national` - Data at the national level, coming from the Bureau of Economic Analysis (BEA) Supply/Use tables. The repository that generates the data is [WiNDCNational.jl](https://github.com/uw-windc/WiNDCNational.jl).
-2. `household` - The national data is disaggregated to the state level and then further disaggregated to the household level. The repository that generates the data is [WiNDCHousehold.jl](https://github.com/uw-windc/WiNDCHousehold.jl). This includes data for 5 household income levels (given by quintiles) and the 51 US states (including DC).
+2. `regional` - The national data is disaggregated to the state level. The repository that generates the data is [WiNDCRegional.jl](https://github.com/uw-windc/WiNDCRegional.jl). This includes data for the 51 US states (including DC).
+3. `household` - The regional data is disaggregated to the household level. The repository that generates the data is [WiNDCHousehold.jl](https://github.com/uw-windc/WiNDCHousehold.jl). This includes data for 5 household income levels (given by quintiles) and the 51 US states (including DC).
 
 
 ## Running the Model
