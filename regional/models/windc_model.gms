@@ -11,7 +11,7 @@ Options:
                     `regional_windc.gdx`.
     - `data_path` - Full path to the GDX file. If not set, it will be 
                     constructed from `data_dir` and `data_file`.
-    - `year` - Year of the data to load. Default is `2024`. Only year available is 2024.
+    - `year` - Year of the data to load. Default is `2024`.
 
 $OffText
 
