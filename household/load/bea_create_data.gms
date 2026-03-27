@@ -1,21 +1,32 @@
-$title Load the WiNDC Household dataset
+$title Create the WiNDC Household dataset
 
-*-------------------
-* Options
-* 
-* These can be set at the command line by calling
-* 
-*     gams load_data --file_path "path/to/file.gdx"
-* 
-* and so on.
-* ------------------
+$OnText
+Create the Household dataset with sets and parameters that match WiNDCHousehold.jl 
+dataset. Uses NAICS codes for sectors and commodities.
+
+Options:
+
+    - `data_dir` - Directory where the data file is located. Default is 
+                    `../data/` relative to the GAMS file.
+    - `data_file` - Name of the GDX file containing the data. Default is 
+                    `household.gdx`.
+    - `data_path` - Full path to the GDX file. If not set, it will be 
+                    constructed from `data_dir` and `data_file`.
+    - `output` - Name of the output GDX file. Default is `household_bea.gdx`.
+
+Example:
+
+    gams load_data --data_dir "path/to/data" --data_file "my_data.gdx"
+
+$OffText
 
 $if not set data_dir $set data_dir "%system.fp%../data"
-$if not set file_name $set file_name "household.gdx"
-$if not set output $set output "household_bea.gdx"
-$set file_path "%data_dir%/%file_name%"
-$set output_path "%data_dir%/%output%"
 
+$if not set data_file $set data_file "household.gdx"
+$set data_path "%data_dir%/%data_file%"
+
+$if not set output $set output "household_bea.gdx"
+$set output_path "%data_dir%/%output%"
 
 
 * --------------
@@ -29,7 +40,7 @@ set
     state "States",
     trn "Transfer types";
 
-$gdxin %file_path%
+$gdxin %data_path%
 $loaddc com, h, mar, sec, state, trn
 
 alias(state, dest);
@@ -63,7 +74,7 @@ parameter
     Tax(com, state)                         "Tax",
     Transfer_Payment(trn, h, state)         "Transfer Payment";
 
-$gdxin %file_path%
+$gdxin %data_path%
 $loaddc Average_Labor_Tax, Capital_Demand, Capital_Tax, Duty
 $loaddc Export, FICA_Tax, Government_Final_Demand, Household_Interest
 $loaddc Household_Supply, Import, Intermediate_Demand, Intermediate_Supply

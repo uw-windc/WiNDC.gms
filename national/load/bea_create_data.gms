@@ -1,24 +1,32 @@
-$title Load the WiNDC national dataset
+$title Create the WiNDC National dataset
 
-*-------------------
-* Options
-* 
-* These can be set at the command line by calling
-* 
-*     gams load_data --file_path "path/to/file.gdx"
-* 
-* and so on.
-* ------------------
+$OnText
+Create the National dataset with sets and parameters that match WiNDCNational.jl 
+dataset. Uses NAICS codes for sectors and commodities.
+
+Options:
+
+    - `data_dir` - Directory where the data file is located. Default is 
+                    `../data/` relative to the GAMS file.
+    - `data_file` - Name of the GDX file containing the data. Default is 
+                    `national.gdx`.
+    - `data_path` - Full path to the GDX file. If not set, it will be 
+                    constructed from `data_dir` and `data_file`.
+    - `output` - Name of the output GDX file. Default is `national_bea.gdx`.
+
+Example:
+
+    gams load_data --data_dir "path/to/data" --data_file "my_data.gdx"
+
+$OffText
 
 $if not set data_dir $set data_dir "%system.fp%../data"
-$if not set file_name $set file_name "national.gdx"
-$if not set output $set output "national_bea.gdx"
-$set file_path "%data_dir%/%file_name%"
-$set output_path "%data_dir%/%output%"
 
-*---------------
-* End of Options 
-* --------------
+$if not set data_file $set data_file "national.gdx"
+$set data_path "%data_dir%/%data_file%"
+
+$if not set output $set output "national_bea.gdx"
+$set output_path "%data_dir%/%output%"
 
 
 * --------------
@@ -32,7 +40,7 @@ set
     ifd  "Investment portions of final demand",
     mar  "Margin sectors";
 
-$gdxin %file_path%
+$gdxin %data_path%
 $loaddc yr, gfd, sec, com, ifd, mar
 
 
@@ -58,8 +66,8 @@ parameter
     
     
     
-
-$gdxin %file_path%
+    
+$gdxin %data_path%
 $loaddc Duty, Intermediate_Demand, Subsidy, Margin_Supply, Investment_Final_Demand 
 $loaddc Tax, Intermediate_Supply, Government_Final_Demand, Personal_Consumption 
 $loaddc Sector_Subsidy, Labor_Demand, Capital_Demand, Import, Margin_Demand 
