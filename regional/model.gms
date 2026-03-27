@@ -1,4 +1,4 @@
-$title Run the Household models for the WiNDC datasets
+$title Run the Regional models for the WiNDC datasets
 
 $ontext
 Command Line Arguments:

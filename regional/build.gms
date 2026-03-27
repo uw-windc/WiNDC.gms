@@ -1,7 +1,7 @@
-$title Build and verify Houshold model
+$title Build and verify Regional model
 
 $ONTEXT
-Build the Houshold data and run the model to verify calibration.
+Build the Regional data and run the model to verify calibration.
 
 Options:
 
@@ -24,7 +24,7 @@ $if not dexist lst    $call mkdir lst
 
 * Step 1: Download the data if it does not exist
 
-$call 'gams get_data.gms --data_dir=%data_dir% --module=household --version=4.2.0'
+$call 'gams get_data.gms --data_dir=%data_dir% --module=regional --version=4.2.0'
 
 
 * Step 2: Create the data files if they do not exist

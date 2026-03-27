@@ -1,8 +1,8 @@
-$title Create the WiNDC Household datasets
+$title Create the WiNDC Regional datasets
 
 $ontext
 Run each `create` file in the `load` directory to create the GDX files for 
-the WiNDC Household datasets. The data will be loaded from the `data` directory 
+the WiNDC Regional datasets. The data will be loaded from the `data` directory 
 and the log files will be saved to the `lst` directory.
 
 Options:
@@ -25,7 +25,7 @@ $if set notation $goto %notation%
 * ==============
 $label BEA
 
-$if not set output $set output "household_bea.gdx"
+$if not set output $set output "regional_bea.gdx"
 $set output_path "%data_dir%/%output%"
 
 $if not exist %output_path% $call 'gams load/bea_create_data.gms o="%lst_dir%bea_create_data.lst" --data_dir=%data_dir%'
@@ -37,10 +37,10 @@ $if set notation $exit
 * ==============
 $label WiNDC
 
-$set output "household_windc.gdx"
+$set output "regional_windc.gdx"
 $set output_path "%data_dir%/%output%"
 
-$if not exist "%data_dir%/household_bea.gdx" $call 'gams load/bea_create_data.gms o="%lst_dir%bea_create_data.lst" --data_dir=%data_dir%'
+$if not exist "%data_dir%/regional_bea.gdx" $call 'gams load/bea_create_data.gms o="%lst_dir%bea_create_data.lst" --data_dir=%data_dir%'
 $if not exist %output_path% $call 'gams load/windc_create_data.gms o="%lst_dir%windc_create_data.lst" --data_dir=%data_dir%'
 
 $if set notation $exit
@@ -50,10 +50,10 @@ $if set notation $exit
 * ==============
 $label legacy_windc
 
-$set output "household_legacy_windc.gdx"
+$set output "regional_legacy_windc.gdx"
 $set output_path "%data_dir%/%output%"
 
-$if not exist "%data_dir%/household_bea.gdx" $call 'gams load/bea_create_data.gms o="%lst_dir%bea_create_data.lst" --data_dir=%data_dir%'
+$if not exist "%data_dir%/regional_bea.gdx" $call 'gams load/bea_create_data.gms o="%lst_dir%bea_create_data.lst" --data_dir=%data_dir%'
 $if not exist %output_path% $call 'gams load/legacy_windc_create_data.gms o="%lst_dir%legacy_windc_create_data.lst" --data_dir=%data_dir%'
 
 $if set notation $exit
