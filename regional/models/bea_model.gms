@@ -1,20 +1,29 @@
 $title Regional accounting model to verify benchmark consistency of MGE model
 
 
-*-------------------
-* Options
-* 
-* These can be set at the command line by calling
-* 
-*     gams load_data --file_path "path/to/file.gdx"
-* 
-* and so on.
-* ------------------
+$OnText
+Regional accounting model to verify benchmark consistency of MGE model. 
+
+Options:
+
+    - `data_dir` - Directory where the data file is located. Default is 
+                    `../data/` relative to the GAMS file.
+    - `data_file` - Name of the GDX file containing the data. Default is 
+                    `regional_bea.gdx`.
+    - `data_path` - Full path to the GDX file. If not set, it will be 
+                    constructed from `data_dir` and `data_file`.
+    - `year` - Year of the data to load. Default is `2024`. Only year available is 2024.
+
+$OffText
 
 
-*$if not set file_path $set file_path "%system.fp%/../data/regional_bea.gdx"
+$if not set data_dir $set data_dir "%system.fp%/../data"
+$if not set data_file $set data_file "regional_bea.gdx"
+
+$if not set data_path $set data_path "%data_dir%/%data_file%"
 
 $if not set year $set year "2024"
+
 
 *---------------
 * End of Options 
